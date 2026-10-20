@@ -3,39 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bài 1 - Danh sách sản phẩm - 701-MSSV</title>
+<title>Bài 1 - Danh sách sản phẩm | 701-231A010275</title>
 <link rel="stylesheet" href="css/style.css">
+<style>
+  .search{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+  .search input{flex:1 1 240px}
+  #list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+  .product{display:flex;flex-direction:column;gap:6px}
+  .product .icon{font-size:2.6rem;line-height:1}
+  .product h3{margin:0;font-size:1.05rem}
+  .product .price{color:var(--gold);font-weight:700;margin-top:auto}
+  .product .desc{color:var(--muted);font-size:.92rem;margin:0}
+  #msg{margin:12px 0;min-height:1.5em}
+  #msg.error{font-size:1rem}
+</style>
 </head>
 <body>
-<header class="site">
-  <div class="wrap">
-    <a class="brand" href="index.html">701-MSSV</a>
-    <nav aria-label="Menu chính">
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="index.html">701-231A010275</a>
+    <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="menu">&#9776;</button>
+    <nav id="menu" aria-label="Menu chính">
       <ul>
         <li><a href="index.html">Trang chủ</a></li>
-        <li><a href="baitap01.html" aria-current="page">Bài 1: Sản phẩm</a></li>
-        <li><a href="baitap02.html">Bài 2: Đăng ký</a></li>
-        <li><a href="baitap03.html">Bài 3: Countdown</a></li>
-        <li><a href="about.html">Trả lời Lý thuyết</a></li>
-        <li><a href="baitap23.html">Bài tập 23</a></li>
+        <li><a href="baitap01.html">Bài 1</a></li>
+        <li><a href="baitap02.html">Bài 2</a></li>
+        <li><a href="baitap03.html">Bài 3</a></li>
+        <li><a href="lythuyet.html">Lý thuyết</a></li>
         <li><a href="baitap22.html">Bài tập 22</a></li>
-        <li><a href="contact.html">Thông tin Điểm danh</a></li>
+        <li><a href="baitap23.html">Bài tập 23</a></li>
+        <li><a href="diemdanh.html">Điểm danh</a></li>
+        <li><a href="about.html">Giới thiệu</a></li>
+        <li><a href="contact.html">Liên hệ</a></li>
       </ul>
     </nav>
   </div>
 </header>
-<main class="wrap">
-<h1>Danh sách sản phẩm</h1>
-<p class="lead">Gõ tên sản phẩm để lọc. Có thể gõ không dấu (ví dụ "dien thoai").</p>
-<form id="search-form" class="searchbar" role="search">
-  <label for="search" hidden>Tìm theo tên sản phẩm</label>
-  <input type="search" id="search" placeholder="Tìm theo tên sản phẩm..." maxlength="100" autocomplete="off">
-  <button type="submit">Tìm kiếm</button>
+<main class="container">
+<h1>Bài 1: Danh sách sản phẩm</h1>
+<p class="lead">Gõ tên sản phẩm để lọc. Không phân biệt hoa thường, gõ không dấu vẫn tìm được (ví dụ: <code>ban phim</code>).</p>
+<form class="search" role="search" id="searchForm" novalidate>
+  <label for="q" class="sr" style="position:absolute;left:-9999px">Tìm theo tên sản phẩm</label>
+  <input type="search" id="q" placeholder="Tìm theo tên sản phẩm..." maxlength="60" autocomplete="off">
+  <button class="btn ghost" type="button" id="clear">Xoá</button>
 </form>
-<div id="no-result" class="msg err" role="alert" hidden></div>
-<section id="product-list" class="grid" aria-live="polite"></section>
+<p id="count" class="hint" aria-live="polite"></p>
+<p id="msg" class="error" role="alert" hidden></p>
+<section id="list" aria-label="Kết quả sản phẩm"></section>
+
 </main>
-<footer class="site">Đề thi kết thúc học phần - Chương 6: Domain Name &amp; Hosting</footer>
-<script src="js/script.js"></script>
+<footer class="site-footer">&copy; 2026 Trần Bảo Quân &middot; MSSV 231A010275 &middot; Văn Hiến University</footer>
+<script src="js/script.js" defer></script>
+<script>
+(function () {
+  "use strict";
+  // 1) Dữ liệu: mảng JavaScript (>= 5 sản phẩm)
+  var products = [
+    { name: "Bàn phím cơ", price: 890000, icon: "⌨️", desc: "Switch blue, đèn LED RGB." },
+    { name: "Chuột không dây", price: 250000, icon: "🖱️", desc: "Pin 12 tháng, kết nối 2.4GHz." },
+    { name: "Tai nghe Bluetooth", price: 620000, icon: "🎧", desc: "Chống ồn, nghe liên tục 20 giờ." },
+    { name: "Màn hình 24 inch", price: 3290000, icon: "🖥️", desc: "Full HD, tấm nền IPS 75Hz." },
+    { name: "Ổ cứng SSD 512GB", price: 1150000, icon: "💾", desc: "Chuẩn NVMe, tốc độ đọc 3000MB/s." },
+    { name: "Webcam Full HD", price: 480000, icon: "📷", desc: "Có micro, cắm USB là dùng." },
+    { name: "Loa mini", price: 350000, icon: "🔊", desc: "Bluetooth 5.0, chống nước IPX5." },
+    { name: "USB 64GB", price: 120000, icon: "🔌", desc: "USB 3.0, vỏ kim loại." }
+  ];
+
+  // 2) Chuẩn hoá chuỗi: bỏ khoảng trắng thừa, bỏ dấu tiếng Việt, đưa về chữ thường
+  function normalize(s) {
+    return String(s)
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d").replace(/Đ/g, "D")
+      .toLowerCase().replace(/\s+/g, " ").trim();
+  }
+  // Tính sẵn khoá tìm kiếm một lần, mỗi lần gõ chỉ cần includes()
+  products.forEach(function (p) { p.key = normalize(p.name); });
+
+  var list = document.getElementById("list");
+  var msg = document.getElementById("msg");
+  var count = document.getElementById("count");
+  var input = document.getElementById("q");
+
+  function money(n) { return n.toLocaleString("vi-VN") + " ₫"; }
+
+  function card(p) {
+    // Dùng createElement + textContent (KHÔNG dùng innerHTML) để chặn injection
+    var art = document.createElement("article");
+    art.className = "card product";
+    var ic = document.createElement("div"); ic.className = "icon"; ic.textContent = p.icon; ic.setAttribute("aria-hidden", "true");
+    var h = document.createElement("h3"); h.textContent = p.name;
+    var d = document.createElement("p"); d.className = "desc"; d.textContent = p.desc;
+    var pr = document.createElement("div"); pr.className = "price"; pr.textContent = money(p.price);
+    art.append(ic, h, d, pr);
+    return art;
+  }
+
+  function render(items, rawQuery) {
+    list.replaceChildren();
+    if (items.length === 0) {
+      msg.textContent = "Không tìm thấy sản phẩm nào cho \"" + rawQuery + "\". Hãy thử từ khoá khác.";
+      msg.hidden = false;
+      count.textContent = "";
+      return;
+    }
+    msg.hidden = true;
+    msg.textContent = "";
+    list.append.apply(list, items.map(card));
+    count.textContent = "Hiển thị " + items.length + "/" + products.length + " sản phẩm";
+  }
+
+  function search() {
+    var raw = input.value.slice(0, 60);          // giới hạn độ dài
+    var q = normalize(raw);
+    var found = q === "" ? products : products.filter(function (p) { return p.key.indexOf(q) !== -1; });
+    render(found, raw.trim());
+  }
+
+  // 3) Debounce: chỉ tìm khi người dùng ngừng gõ 150ms
+  var timer = null;
+  input.addEventListener("input", function () {
+    clearTimeout(timer);
+    timer = setTimeout(search, 150);
+  });
+  document.getElementById("searchForm").addEventListener("submit", function (e) { e.preventDefault(); search(); });
+  document.getElementById("clear").addEventListener("click", function () { input.value = ""; search(); input.focus(); });
+
+  search();
+})();
+</script>
 </body>
 </html>

@@ -3,58 +3,188 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bài 2 - Form đăng ký - 701-MSSV</title>
+<title>Bài 2 - Form đăng ký | 701-231A010275</title>
 <link rel="stylesheet" href="css/style.css">
+<style>
+  .form-card{max-width:520px}
+  .check{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px}
+  .check input{width:20px;height:20px;margin-top:4px;accent-color:var(--gold)}
+  .check label{margin:0;font-weight:400}
+  #status{margin-top:16px}
+  #status.success{border:1px solid var(--ok);padding:12px;border-radius:6px}
+  .saved{margin-top:20px;font-size:.92rem;color:var(--muted)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+</style>
 </head>
 <body>
-<header class="site">
-  <div class="wrap">
-    <a class="brand" href="index.html">701-MSSV</a>
-    <nav aria-label="Menu chính">
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="index.html">701-231A010275</a>
+    <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="menu">&#9776;</button>
+    <nav id="menu" aria-label="Menu chính">
       <ul>
         <li><a href="index.html">Trang chủ</a></li>
-        <li><a href="baitap01.html">Bài 1: Sản phẩm</a></li>
-        <li><a href="baitap02.html" aria-current="page">Bài 2: Đăng ký</a></li>
-        <li><a href="baitap03.html">Bài 3: Countdown</a></li>
-        <li><a href="about.html">Trả lời Lý thuyết</a></li>
-        <li><a href="baitap23.html">Bài tập 23</a></li>
+        <li><a href="baitap01.html">Bài 1</a></li>
+        <li><a href="baitap02.html">Bài 2</a></li>
+        <li><a href="baitap03.html">Bài 3</a></li>
+        <li><a href="lythuyet.html">Lý thuyết</a></li>
         <li><a href="baitap22.html">Bài tập 22</a></li>
-        <li><a href="contact.html">Thông tin Điểm danh</a></li>
+        <li><a href="baitap23.html">Bài tập 23</a></li>
+        <li><a href="diemdanh.html">Điểm danh</a></li>
+        <li><a href="about.html">Giới thiệu</a></li>
+        <li><a href="contact.html">Liên hệ</a></li>
       </ul>
     </nav>
   </div>
 </header>
-<main class="wrap">
-<h1>Đăng ký tài khoản</h1>
-<p class="lead">Mật khẩu tối thiểu 8 ký tự, có chữ hoa, chữ thường và số.</p>
-<form id="register-form" class="card form" novalidate>
-  <div class="field">
+<main class="container">
+<h1>Bài 2: Form đăng ký</h1>
+<p class="lead">Mật khẩu ít nhất 8 ký tự, có chữ hoa, chữ thường và số. Dữ liệu hợp lệ được lưu vào LocalStorage.</p>
+<form id="regForm" class="card form-card" novalidate>
+  <div class="field" id="f-name">
     <label for="name">Tên</label>
-    <input type="text" id="name" name="name" autocomplete="name" maxlength="80">
-    <p class="error" role="alert"></p>
+    <input type="text" id="name" name="name" autocomplete="name" maxlength="50" aria-describedby="e-name">
+    <div class="error" id="e-name" aria-live="polite"></div>
   </div>
-  <div class="field">
+  <div class="field" id="f-email">
     <label for="email">Email</label>
-    <input type="email" id="email" name="email" autocomplete="email" maxlength="120">
-    <p class="error" role="alert"></p>
+    <input type="email" id="email" name="email" autocomplete="email" maxlength="254" aria-describedby="e-email">
+    <div class="error" id="e-email" aria-live="polite"></div>
   </div>
-  <div class="field">
+  <div class="field" id="f-pass">
     <label for="password">Mật khẩu</label>
-    <input type="password" id="password" name="password" autocomplete="new-password" maxlength="128">
-    <p class="error" role="alert"></p>
+    <input type="password" id="password" name="password" autocomplete="new-password" maxlength="64" aria-describedby="e-pass h-pass">
+    <div class="hint" id="h-pass">Tối thiểu 8 ký tự gồm chữ hoa, chữ thường và số.</div>
+    <div class="error" id="e-pass" aria-live="polite"></div>
   </div>
-  <div class="field">
+  <div class="field" id="f-agree">
     <div class="check">
-      <input type="checkbox" id="agree" name="agree">
-      <label for="agree">Đồng ý điều khoản</label>
+      <input type="checkbox" id="agree" name="agree" aria-describedby="e-agree">
+      <label for="agree">Tôi đồng ý với điều khoản sử dụng</label>
     </div>
-    <p class="error" role="alert"></p>
+    <div class="error" id="e-agree" aria-live="polite"></div>
   </div>
-  <button type="submit">Đăng ký</button>
-  <div id="form-result" role="status" hidden></div>
+  <button class="btn" type="submit" id="submitBtn">Đăng ký</button>
+  <p id="status" role="status" aria-live="polite"></p>
 </form>
+<div class="saved">
+  <p id="savedInfo"></p>
+  <div class="row"><button class="btn ghost" type="button" id="clearData">Xoá dữ liệu đã lưu</button></div>
+</div>
+
 </main>
-<footer class="site">Đề thi kết thúc học phần - Chương 6: Domain Name &amp; Hosting</footer>
-<script src="js/script.js"></script>
+<footer class="site-footer">&copy; 2026 Trần Bảo Quân &middot; MSSV 231A010275 &middot; Văn Hiến University</footer>
+<script src="js/script.js" defer></script>
+<script>
+(function () {
+  "use strict";
+  var KEY = "users_701_231A010275";
+  var form = document.getElementById("regForm");
+  var statusEl = document.getElementById("status");
+  var submitBtn = document.getElementById("submitBtn");
+
+  var rules = {
+    name: function (v) {
+      v = v.trim().replace(/\s+/g, " ");
+      if (v.length < 2) return "Tên phải có ít nhất 2 ký tự.";
+      if (!/^[\p{L}\s'.-]{2,50}$/u.test(v)) return "Tên chỉ gồm chữ cái, khoảng trắng, dấu ' . -";
+      return "";
+    },
+    email: function (v) {
+      v = v.trim();
+      if (!v) return "Vui lòng nhập email.";
+      if (v.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return "Email không hợp lệ (ví dụ: ten@gmail.com).";
+      return "";
+    },
+    password: function (v) {
+      if (v.length < 8) return "Mật khẩu phải có ít nhất 8 ký tự.";
+      if (!/[A-Z]/.test(v)) return "Mật khẩu cần ít nhất 1 chữ hoa.";
+      if (!/[a-z]/.test(v)) return "Mật khẩu cần ít nhất 1 chữ thường.";
+      if (!/[0-9]/.test(v)) return "Mật khẩu cần ít nhất 1 chữ số.";
+      return "";
+    },
+    agree: function (checked) { return checked ? "" : "Bạn cần đồng ý với điều khoản."; }
+  };
+  var map = { name: "e-name", email: "e-email", password: "e-pass", agree: "e-agree" };
+  var fieldBox = { name: "f-name", email: "f-email", password: "f-pass", agree: "f-agree" };
+
+  function setError(key, text) {
+    document.getElementById(map[key]).textContent = text;
+    document.getElementById(fieldBox[key]).classList.toggle("invalid", !!text);
+    var el = form.elements[key];
+    if (el) el.setAttribute("aria-invalid", text ? "true" : "false");
+  }
+  function check(key) {
+    var el = form.elements[key];
+    var err = rules[key](key === "agree" ? el.checked : el.value);
+    setError(key, err);
+    return err === "";
+  }
+
+  // Validate ngay khi rời ô nhập (blur) để người dùng thấy lỗi sớm
+  ["name", "email", "password"].forEach(function (k) {
+    form.elements[k].addEventListener("blur", function () { check(k); });
+  });
+  form.elements.agree.addEventListener("change", function () { check("agree"); });
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; }
+  }
+  function updateInfo() {
+    document.getElementById("savedInfo").textContent =
+      "Số tài khoản đã lưu trong LocalStorage: " + load().length + " (mật khẩu chỉ lưu dạng băm, không lưu bản gốc).";
+  }
+
+  // Băm SHA-256 kèm salt ngẫu nhiên (chỉ để minh hoạ; hệ thống thật phải băm ở server bằng bcrypt/argon2)
+  async function hashPassword(pw) {
+    if (!(window.crypto && crypto.subtle)) return null;   // không có Web Crypto thì không lưu mật khẩu
+    var saltBytes = crypto.getRandomValues(new Uint8Array(16));
+    var salt = Array.from(saltBytes, function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+    var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(salt + pw));
+    var hash = Array.from(new Uint8Array(buf), function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+    return { salt: salt, hash: hash };
+  }
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();                       // chặn reload trang
+    statusEl.textContent = ""; statusEl.className = "";
+    var results = ["name", "email", "password", "agree"].map(check);
+    if (results.indexOf(false) !== -1) {
+      var firstBad = ["name", "email", "password", "agree"].find(function (k) { return !check(k); });
+      form.elements[firstBad].focus();        // đưa con trỏ tới ô lỗi đầu tiên
+      return;
+    }
+    submitBtn.disabled = true;                // chống bấm nhiều lần
+    try {
+      var name = form.elements.name.value.trim().replace(/\s+/g, " ");
+      var email = form.elements.email.value.trim().toLowerCase();
+      var users = load();
+      if (users.some(function (u) { return u.email === email; })) {
+        setError("email", "Email này đã được đăng ký.");
+        form.elements.email.focus();
+        return;
+      }
+      var pw = await hashPassword(form.elements.password.value);
+      users.push({ name: name, email: email, password: pw, createdAt: new Date().toISOString() });
+      localStorage.setItem(KEY, JSON.stringify(users));
+      statusEl.textContent = "Đăng ký thành công! Xin chào " + name + ".";   // textContent: an toàn trước XSS
+      statusEl.className = "success";
+      form.reset();
+      ["name", "email", "password", "agree"].forEach(function (k) { setError(k, ""); });
+      updateInfo();
+    } catch (err) {
+      statusEl.textContent = "Không lưu được dữ liệu (trình duyệt chặn LocalStorage hoặc đã đầy).";
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  document.getElementById("clearData").addEventListener("click", function () {
+    localStorage.removeItem(KEY);
+    updateInfo();
+  });
+  updateInfo();
+})();
+</script>
 </body>
 </html>

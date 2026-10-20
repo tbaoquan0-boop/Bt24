@@ -3,41 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trang chủ - 701-MSSV</title>
+<title>Trang chủ | 701-231A010275</title>
 <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
-<header class="site">
-  <div class="wrap">
-    <a class="brand" href="index.html">701-MSSV</a>
-    <nav aria-label="Menu chính">
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="index.html">701-231A010275</a>
+    <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="menu">&#9776;</button>
+    <nav id="menu" aria-label="Menu chính">
       <ul>
-        <li><a href="index.html" aria-current="page">Trang chủ</a></li>
-        <li><a href="baitap01.html">Bài 1: Sản phẩm</a></li>
-        <li><a href="baitap02.html">Bài 2: Đăng ký</a></li>
-        <li><a href="baitap03.html">Bài 3: Countdown</a></li>
-        <li><a href="about.html">Trả lời Lý thuyết</a></li>
-        <li><a href="baitap23.html">Bài tập 23</a></li>
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="baitap01.html">Bài 1</a></li>
+        <li><a href="baitap02.html">Bài 2</a></li>
+        <li><a href="baitap03.html">Bài 3</a></li>
+        <li><a href="lythuyet.html">Lý thuyết</a></li>
         <li><a href="baitap22.html">Bài tập 22</a></li>
-        <li><a href="contact.html">Thông tin Điểm danh</a></li>
+        <li><a href="baitap23.html">Bài tập 23</a></li>
+        <li><a href="diemdanh.html">Điểm danh</a></li>
+        <li><a href="about.html">Giới thiệu</a></li>
+        <li><a href="contact.html">Liên hệ</a></li>
       </ul>
     </nav>
   </div>
 </header>
-<main class="wrap">
-<h1>Bài thi kết thúc học phần</h1>
-<p class="lead">Chọn một mục bên dưới hoặc dùng menu trên cùng.</p>
-<div class="menu-grid">
-  <a class="card" href="baitap01.html"><strong>Bài 1: Danh sách sản phẩm</strong>Tìm kiếm theo tên, không phân biệt hoa thường.</a>
-  <a class="card" href="baitap02.html"><strong>Bài 2: Form đăng ký</strong>Validate và lưu vào LocalStorage.</a>
-  <a class="card" href="baitap03.html"><strong>Bài 3: Countdown 10 phút</strong>Định dạng MM:SS, hiệu ứng khi dưới 1 phút.</a>
-  <a class="card" href="about.html"><strong>Trả lời Lý thuyết</strong>Giải thích logic tư duy của cả 3 bài.</a>
-  <a class="card" href="baitap23.html"><strong>Bài tập 23</strong>Web có hiệu ứng JavaScript.</a>
-  <a class="card" href="baitap22.html"><strong>Bài tập 22</strong>Trắc nghiệm HTML, CSS, JavaScript.</a>
-  <a class="card" href="contact.html"><strong>Thông tin Điểm danh</strong>Thông tin sinh viên và link deploy.</a>
-</div>
+<main class="container">
+<section class="hero">
+  <img src="images/avatar.jpg" alt="Ảnh đại diện Trần Bảo Quân">
+  <div>
+    <h1>Đề thi kết thúc học phần &ndash; Đề số 1</h1>
+    <p class="lead">Chương 6: Domain Name &amp; Hosting. HTML, CSS và JavaScript thuần.</p>
+    <p><strong>Trần Bảo Quân</strong> &middot; MSSV <strong>231A010275</strong></p>
+  </div>
+</section>
+<section class="grid" aria-label="Danh sách bài làm">
+  <a class="card card-link" href="baitap01.html"><h3>Bài 1</h3><p>Danh sách sản phẩm và tìm kiếm theo tên.</p></a>
+  <a class="card card-link" href="baitap02.html"><h3>Bài 2</h3><p>Form đăng ký, validate và lưu LocalStorage.</p></a>
+  <a class="card card-link" href="baitap03.html"><h3>Bài 3</h3><p>Đồng hồ đếm ngược 10 phút (MM:SS).</p></a>
+  <a class="card card-link" href="lythuyet.html"><h3>Trả lời lý thuyết</h3><p>Giải thích logic tư duy của 3 bài.</p></a>
+  <a class="card card-link" href="baitap22.html"><h3>Bài tập 22</h3><p>Kết quả trắc nghiệm HTML, CSS, JavaScript.</p></a>
+  <a class="card card-link" href="baitap23.html"><h3>Bài tập 23</h3><p>Đèn kéo quân với hiệu ứng JavaScript.</p></a>
+  <a class="card card-link" href="diemdanh.html"><h3>Thông tin điểm danh</h3><p>Thông tin sinh viên và link deploy.</p></a>
+</section>
+
 </main>
-<footer class="site">Đề thi kết thúc học phần - Chương 6: Domain Name &amp; Hosting</footer>
+<footer class="site-footer">&copy; 2026 Trần Bảo Quân &middot; MSSV 231A010275 &middot; Văn Hiến University</footer>
+<script src="js/script.js" defer></script>
 
 </body>
 </html>
