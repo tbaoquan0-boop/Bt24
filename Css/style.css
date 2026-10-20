@@ -1,0 +1,61 @@
+:root{--ink:#14213d;--paper:#f7f8fa;--card:#fff;--line:#d9dee7;--accent:#0f766e;--accent-d:#0b5c56;--bad:#b42318;--ok:#067647;--r:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+header.site{background:var(--ink);color:#fff}
+header.site .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1.5rem;padding:.75rem 1rem}
+header.site .brand{font-weight:700;font-size:1.1rem;color:#fff;text-decoration:none}
+nav ul{list-style:none;display:flex;flex-wrap:wrap;gap:.25rem;margin:0;padding:0}
+nav a{display:block;padding:.4rem .75rem;border-radius:6px;color:#dbe4f3;text-decoration:none;font-size:.95rem}
+nav a:hover,nav a[aria-current="page"]{background:#243b6b;color:#fff}
+.wrap{max-width:960px;margin:0 auto;padding:0 1rem}
+main.wrap{padding-top:1.5rem;padding-bottom:3rem}
+h1{font-size:1.8rem;margin:.2rem 0 .4rem}
+h2{font-size:1.25rem;margin-top:2rem}
+.lead{color:#475467;margin-top:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.25rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.product{display:flex;flex-direction:column;gap:.35rem}
+.product h3{margin:0;font-size:1.05rem}
+.product .cat{color:#475467;font-size:.9rem}
+.product .price{font-weight:700;color:var(--accent-d)}
+.searchbar{display:flex;gap:.5rem;margin:1rem 0}
+.searchbar input{flex:1}
+input[type=text],input[type=email],input[type=password],input[type=search]{width:100%;padding:.65rem .75rem;border:1px solid #98a2b3;border-radius:8px;font:inherit;background:#fff}
+button,.btn{font:inherit;padding:.65rem 1.1rem;border:0;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;text-decoration:none;display:inline-block}
+button:hover:not(:disabled),.btn:hover{background:var(--accent-d)}
+button:disabled{opacity:.5;cursor:not-allowed}
+button.ghost{background:#fff;color:var(--ink);border:1px solid #98a2b3}
+button.ghost:hover:not(:disabled){background:#eef1f5}
+.msg{padding:.8rem 1rem;border-radius:8px;margin:1rem 0}
+.msg.err{background:#fef3f2;color:var(--bad);border:1px solid #fecdca}
+.msg.ok{background:#ecfdf3;color:var(--ok);border:1px solid #abefc6}
+.form{max-width:460px}
+.field{margin-bottom:1rem}
+.field label{display:block;font-weight:600;margin-bottom:.25rem}
+.field .error{color:var(--bad);font-size:.88rem;min-height:1.2em;margin:.2rem 0 0}
+.field.invalid input[type=text],.field.invalid input[type=email],.field.invalid input[type=password]{border-color:var(--bad)}
+.check{display:flex;gap:.5rem;align-items:flex-start}
+.check input{margin-top:.35rem}
+.check label{font-weight:400;margin:0}
+.timer-box{text-align:center;padding:2rem 1rem}
+#display{font-size:clamp(3.5rem,16vw,7rem);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;margin:.5rem 0}
+#display.warn{color:var(--bad);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:.6}}
+.btns{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+dialog{border:0;border-radius:var(--r);padding:1.75rem;max-width:min(92vw,380px);text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(10,20,40,.6)}
+table.info{border-collapse:collapse;width:100%}
+table.info th,table.info td{border:1px solid var(--line);padding:.6rem .8rem;text-align:left;vertical-align:top}
+table.info th{width:34%;background:#eef1f5}
+.avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--line)}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem}
+.menu-grid a.card{text-decoration:none;color:inherit}
+.menu-grid a.card:hover{border-color:var(--accent)}
+.menu-grid strong{display:block;color:var(--accent-d)}
+code{background:#eef1f5;padding:.1rem .35rem;border-radius:4px;font-size:.92em}
+pre{background:#0f172a;color:#e2e8f0;padding:1rem;border-radius:8px;overflow:auto;font-size:.88rem}
+footer.site{border-top:1px solid var(--line);padding:1rem;text-align:center;color:#667085;font-size:.9rem}
+@media (max-width:600px){h1{font-size:1.5rem}.searchbar{flex-direction:column}}
+@media (prefers-reduced-motion:reduce){#display.warn{animation:none}}
