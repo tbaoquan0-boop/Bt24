@@ -29,56 +29,23 @@
   </div>
 </header>
 <main class="container">
-<h1>Trả lời lý thuyết: logic tư duy</h1>
-<p class="lead">Giải thích cách mình thiết kế và xử lý trong 3 bài của đề thi số 1.</p>
+<h1>Trả lời lý thuyết</h1>
 
-<h2>Bài 1: Danh sách sản phẩm và tìm kiếm</h2>
-<h3>Xử lý input để tránh injection</h3>
-<ul class="plain">
-  <li>Không bao giờ ghép chuỗi người dùng nhập vào <code>innerHTML</code>. Nếu ghép, người dùng gõ <code>&lt;img src=x onerror=...&gt;</code> sẽ chạy được script (XSS).</li>
-  <li>Mọi nội dung hiển thị đều tạo bằng <code>createElement</code> và gán bằng <code>textContent</code>, trình duyệt luôn hiểu đó là chữ thuần, không phải mã HTML.</li>
-  <li>Từ khoá chỉ dùng để so sánh chuỗi bằng <code>includes</code>/<code>indexOf</code>, không dùng <code>eval</code> và không đưa vào <code>RegExp</code> (tránh ký tự đặc biệt gây lỗi hoặc ReDoS).</li>
-  <li>Giới hạn độ dài ô nhập (<code>maxlength</code> và <code>slice</code>) để tránh input quá lớn.</li>
-</ul>
-<h3>Tối ưu tìm kiếm</h3>
-<ul class="plain">
-  <li>Chuẩn hoá chuỗi: bỏ khoảng trắng thừa, đưa về chữ thường, bỏ dấu tiếng Việt, nên gõ <code>ban phim</code> vẫn ra &ldquo;Bàn phím cơ&rdquo;.</li>
-  <li>Tính sẵn khoá tìm kiếm cho từng sản phẩm một lần lúc tải trang, mỗi lần gõ chỉ lọc, không chuẩn hoá lại toàn bộ dữ liệu.</li>
-  <li>Debounce 150ms: chỉ tìm khi người dùng ngừng gõ, tránh vẽ lại danh sách ở từng phím.</li>
-  <li>Khi không có kết quả: hiện thông báo lỗi (<code>role="alert"</code>) để người dùng và trình đọc màn hình biết.</li>
-  <li>Dữ liệu lớn (hàng nghìn sản phẩm) thì chuyển việc tìm kiếm lên server hoặc dùng chỉ mục.</li>
-</ul>
+<h2>Câu 1: Position Relative và Absolute</h2>
+<p>Relative giữ nguyên phần tử trong dòng chảy tài liệu và dịch chuyển dựa trên vị trí gốc của chính nó. Absolute tách phần tử hoàn toàn khỏi dòng chảy và căn chỉnh theo phần tử cha gần nhất có vị trí tương đối.</p>
+<p>Tình huống responsive phổ biến là đặt khung thẻ sản phẩm relative để neo nhãn giảm giá absolute bám góc trên. Khi deploy lên các thiết bị màn hình khác nhau, lạm dụng absolute dễ gây vỡ layout vì thẻ cha bị mất chiều cao khiến nội dung bên dưới tràn đè lên nhau, dù nó có ưu điểm tách lớp hiển thị giúp trình duyệt bớt giật lag khi chạy hiệu ứng.</p>
 
-<h2>Bài 2: Form đăng ký</h2>
-<h3>Xử lý sự kiện submit</h3>
-<ul class="plain">
-  <li>Dùng <code>novalidate</code> để tự kiểm soát việc validate, rồi gọi <code>e.preventDefault()</code> trong sự kiện <code>submit</code> để trang không bị tải lại.</li>
-  <li>Validate từng trường: tên (chỉ chữ cái, 2 đến 50 ký tự), email (regex cơ bản và giới hạn 254 ký tự), mật khẩu (từ 8 ký tự, có chữ hoa, chữ thường, số), checkbox bắt buộc.</li>
-  <li>Hiện lỗi ngay dưới từng ô (<code>aria-live</code>), đưa con trỏ về ô lỗi đầu tiên, và validate khi rời ô (<code>blur</code>) để báo lỗi sớm.</li>
-  <li>Khoá nút gửi trong lúc xử lý để tránh bấm đúp, đồng thời bọc <code>try/catch</code> vì LocalStorage có thể bị chặn hoặc đầy.</li>
-</ul>
-<h3>Bảo mật dữ liệu cục bộ</h3>
-<ul class="plain">
-  <li>LocalStorage không được mã hoá, mọi script cùng origin đều đọc được, nên một lỗ hổng XSS là lộ hết. Vì vậy không lưu mật khẩu gốc: chỉ lưu bản băm SHA-256 kèm salt ngẫu nhiên (chỉ để minh hoạ).</li>
-  <li>Hệ thống thật phải băm mật khẩu ở server bằng bcrypt hoặc argon2 qua HTTPS, và dùng cookie <code>HttpOnly</code> cho phiên đăng nhập thay vì để token trong LocalStorage.</li>
-  <li>Hiển thị tên người dùng bằng <code>textContent</code>, kiểm tra trùng email, và có nút xoá dữ liệu đã lưu.</li>
-</ul>
+<h2>Câu 2: Tên miền, Hosting và Bảo mật</h2>
+<p>Quy trình đưa web JavaScript lên mạng gồm mua tên miền, tạo hosting chứa mã nguồn tĩnh, rồi cấu hình bản ghi A hoặc CNAME trên hệ thống DNS để liên kết tên miền với máy chủ. DNS đóng vai trò như danh bạ chuyển đổi địa chỉ chữ thành địa chỉ IP máy tính hiểu được.</p>
+<p>GitHub Pages và Netlify là hai nền tảng serverless phổ biến giúp triển khai trực tiếp từ Git và tự cấp chứng chỉ bảo mật. Rủi ro lớn nhất nếu cấu hình sai là lộ API key nhúng nhầm trong mã JavaScript gửi về trình duyệt, website bị nghe lén nếu thiếu chứng chỉ HTTPS, hoặc bị chiếm quyền tên miền phụ nếu trỏ DNS vào dịch vụ cũ đã hủy.</p>
 
-<h2>Bài 3: Đồng hồ đếm ngược</h2>
-<h3>Xử lý interval để tránh memory leak</h3>
-<ul class="plain">
-  <li>Lưu id của <code>setInterval</code> vào biến, kiểm tra trước khi tạo mới để không bao giờ có 2 interval chạy chồng nhau.</li>
-  <li>Luôn <code>clearInterval</code> khi tạm dừng, đặt lại, hết giờ và khi rời trang (<code>pagehide</code>).</li>
-  <li>Không dựa vào việc &ldquo;trừ 1 giây mỗi lần chạy&rdquo; vì tab nền bị trình duyệt làm chậm. Thay vào đó lưu mốc kết thúc <code>endAt</code> và mỗi lần tính <code>endAt - now()</code>, nên đồng hồ luôn đúng.</li>
-  <li>Dưới 1 phút thêm class <code>warning</code> để chạy animation CSS (tôn trọng <code>prefers-reduced-motion</code>). Hết giờ mở modal bằng thẻ <code>&lt;dialog&gt;</code>.</li>
-</ul>
-<h3>Tích hợp Domain/Hosting và đồng bộ giờ server</h3>
-<ul class="plain">
-  <li>Giờ trên máy người dùng có thể sai hoặc bị chỉnh. Trang gửi một request <code>HEAD</code> tới chính host của nó, đọc header <code>Date</code> của server, tính độ lệch rồi cộng vào <code>now()</code>. Nếu lỗi (ví dụ mở bằng file) thì dùng giờ máy.</li>
-  <li>Khi deploy: trỏ domain về hosting bằng bản ghi DNS (A hoặc CNAME), bật HTTPS. Với GitHub Pages thì thêm file <code>CNAME</code> và cấu hình DNS ở nhà đăng ký tên miền.</li>
-  <li>Nếu cần chính xác tuyệt đối (thi thật), server nên là nơi giữ mốc kết thúc (API trả giờ server), còn trình duyệt chỉ hiển thị, vì đồng hồ phía client có thể bị can thiệp.</li>
-</ul>
+<h2>Câu 3: Var, Let, Const và Debug DevTools</h2>
+<p>Var có phạm vi theo hàm và được đưa lên đầu với giá trị mặc định undefined. Let và const có phạm vi theo khối ngoặc nhọn, được đưa lên đầu nhưng nằm trong vùng chết tạm thời nên không thể truy cập trước khi khai báo, trong đó const không cho phép gán lại giá trị.</p>
+<p>Lỗi kinh điển là dùng var trong vòng lặp lồng hàm chờ bất đồng bộ khiến toàn bộ kết quả in ra đều mang giá trị lặp cuối cùng; thay var bằng let sẽ sửa được ngay do mỗi vòng lặp được tạo một phạm vi riêng. Để debug trên Chrome DevTools, chỉ cần mở tab Sources, bấm số dòng để đặt điểm dừng, chạy từng bước và theo dõi sự thay đổi của biến ngay trong bảng Scope để tìm ra đúng thời điểm biến bị ghi đè.</p>
 
+<h2>Câu 4: Event Delegation và Tối ưu hiệu suất</h2>
+<p>Event Delegation là kỹ thuật dựa vào cơ chế nổi bọt sự kiện, chỉ gắn một hàm lắng nghe tại phần tử cha để xử lý cho toàn bộ các phần tử con bên trong thông qua thuộc tính nhận diện điểm bấm.</p>
+<p>Trong danh sách động cho phép thêm xóa liên tục, việc gắn sự kiện ở thẻ cha giúp mọi mục mới sinh ra tự động nhận được hành động xóa mà không cần gắn lại sự kiện thủ công. Cách làm này giảm đáng kể bộ nhớ RAM vì không phải tạo hàng loạt hàm thừa, loại bỏ nguy cơ rò rỉ bộ nhớ khi xóa phần tử, đồng thời dễ kết hợp với thuộc tính pointer-events của CSS để bấm trúng nút mà không bị lệch vào các icon phụ bên trong.</p>
 </main>
 <footer class="site-footer">&copy; 2026 Trần Bảo Quân &middot; MSSV 231A010275 &middot; Văn Hiến University</footer>
 <script src="js/script.js" defer></script>
