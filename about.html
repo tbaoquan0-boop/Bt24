@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trả lời Lý thuyết - 701-MSSV</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">701-MSSV</a>
+    <nav aria-label="Menu chính">
+      <ul>
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="baitap01.html">Bài 1: Sản phẩm</a></li>
+        <li><a href="baitap02.html">Bài 2: Đăng ký</a></li>
+        <li><a href="baitap03.html">Bài 3: Countdown</a></li>
+        <li><a href="about.html" aria-current="page">Trả lời Lý thuyết</a></li>
+        <li><a href="baitap23.html">Bài tập 23</a></li>
+        <li><a href="baitap22.html">Bài tập 22</a></li>
+        <li><a href="contact.html">Thông tin Điểm danh</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<h1>Phần Lý thuyết: giải thích logic tư duy</h1>
+<p class="lead">Câu trả lời cho 3 bài thực hành.</p>
+
+<h2>Bài 1. Tìm kiếm sản phẩm: chống injection và tối ưu</h2>
+<div class="card">
+<p><strong>Xử lý input để tránh injection (XSS).</strong> Dữ liệu hiển thị ra trang luôn được gán bằng <code>textContent</code>, không dùng <code>innerHTML</code>. Nhờ vậy nếu người dùng gõ <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> thì trình duyệt chỉ hiểu đó là chữ, không thực thi. Thông báo "không tìm thấy" cũng gán bằng <code>textContent</code> và không chèn lại từ khóa người dùng vào HTML.</p>
+<p><strong>Làm sạch input.</strong> Từ khóa được <code>trim()</code>, giới hạn 100 ký tự, đưa về chữ thường (không phân biệt hoa thường) và bỏ dấu tiếng Việt bằng <code>normalize('NFD')</code>, nên gõ "dien thoai" vẫn ra "Điện thoại". Việc so khớp dùng <code>includes()</code>, không đưa input vào <code>RegExp</code> hay <code>eval</code>, nên không có rủi ro ký tự đặc biệt hay ReDoS.</p>
+<p><strong>Tối ưu.</strong> Chuỗi tìm kiếm của mỗi sản phẩm được chuẩn hóa một lần lúc tải trang (mỗi lần gõ chỉ cần <code>includes</code>). Dùng debounce 150 ms để không lọc lại sau mỗi phím. Dùng <code>DocumentFragment</code> để chèn danh sách vào DOM một lần. Khi rỗng thì hiện thông báo lỗi thân thiện.</p>
+<p><strong>Giao diện.</strong> CSS Grid với <code>repeat(auto-fill, minmax(210px, 1fr))</code> tự co giãn số cột theo chiều rộng màn hình, không cần media query.</p>
+</div>
+
+<h2>Bài 2. Form đăng ký: sự kiện submit và bảo mật dữ liệu cục bộ</h2>
+<div class="card">
+<p><strong>Xử lý submit.</strong> Lắng nghe sự kiện <code>submit</code> của form (không gắn vào nút bấm, để Enter cũng hoạt động) và gọi <code>e.preventDefault()</code> để trang không tải lại. Sau đó chạy toàn bộ hàm kiểm tra để hiện mọi lỗi cùng lúc: tên tối thiểu 2 ký tự, email khớp regex, mật khẩu khớp <code>/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/</code> và checkbox phải được tick. Ngoài ra kiểm tra khi rời ô nhập (<code>blur</code>) để báo lỗi sớm. Lỗi gắn vào từng ô bằng <code>aria-invalid</code> và vùng <code>role="alert"</code> để hỗ trợ trình đọc màn hình. Chỉ khi hợp lệ mới ghi dữ liệu.</p>
+<p><strong>Bảo mật dữ liệu cục bộ.</strong> LocalStorage là văn bản thuần, mọi script cùng origin (kể cả khi bị XSS) đều đọc được, và người dùng mở DevTools là thấy. Vì vậy: (1) không lưu mật khẩu gốc, chỉ lưu SHA-256 của <code>salt + mật khẩu</code> (Web Crypto API); (2) mỗi người dùng có salt ngẫu nhiên riêng; (3) bọc <code>JSON.parse</code> và <code>setItem</code> trong try/catch phòng dữ liệu hỏng hoặc bộ nhớ đầy; (4) chặn đăng ký trùng email. Lưu ý thực tế: bài này chỉ minh họa. Hệ thống thật phải xác thực ở server, dùng thuật toán băm chậm (bcrypt/argon2) và không dựa vào LocalStorage để lưu thông tin nhạy cảm hay token.</p>
+<p><strong>Responsive.</strong> Form có <code>max-width: 460px</code> và <code>width: 100%</code> cho input, nên vừa vặn trên điện thoại lẫn máy tính.</p>
+</div>
+
+<h2>Bài 3. Đồng hồ đếm ngược: interval, memory leak, Domain/Hosting</h2>
+<div class="card">
+<p><strong>Cập nhật thời gian.</strong> <code>setInterval</code> chạy mỗi 250 ms nhưng không trừ 1 giây mỗi lần gọi, vì interval có thể bị trễ khi tab ở nền. Mỗi lần chạy, mã tính <code>còn lại = thời điểm kết thúc - Date.now()</code>, nên đồng hồ luôn đúng. Hiển thị MM:SS bằng <code>padStart(2, '0')</code>. Dưới 60 giây thì thêm class <code>warn</code> để chạy animation <code>@keyframes pulse</code> (tắt khi người dùng bật <code>prefers-reduced-motion</code>). Hết giờ thì mở <code>&lt;dialog&gt;</code> bằng <code>showModal()</code>.</p>
+<p><strong>Tránh memory leak.</strong> Lưu id của interval vào biến, luôn gọi <code>clearInterval</code> khi: hết giờ, tạm dừng, đặt lại và khi rời trang (<code>pagehide</code>). Kiểm tra <code>timerId !== null</code> trước khi tạo interval mới để không có nhiều interval chạy chồng lên nhau (nếu bấm Bắt đầu nhiều lần). Không giữ tham chiếu DOM thừa sau khi dừng.</p>
+<p><strong>Tích hợp Domain/Hosting.</strong> Khi deploy lên GitHub Pages (hoặc hosting khác), trang được phục vụ qua HTTPS trên domain, nên các API như Web Crypto hoạt động. Đồng hồ trên trình duyệt dựa vào giờ máy người dùng, có thể bị chỉnh sai. Nếu cần đồng bộ thật (ví dụ đề thi), server trả về thời điểm kết thúc: client gọi API (hoặc đọc header <code>Date</code> của HTTP response), tính độ lệch <code>offset = serverTime - Date.now()</code> rồi dùng <code>Date.now() + offset</code> trong hàm tick. Kết hợp CDN/cache thì endpoint thời gian phải đặt <code>Cache-Control: no-store</code>. GitHub Pages là hosting tĩnh nên không có API thời gian; đây là điểm cần một backend riêng nếu muốn đồng bộ.</p>
+</div>
+</main>
+<footer class="site">Đề thi kết thúc học phần - Chương 6: Domain Name &amp; Hosting</footer>
+
+</body>
+</html>

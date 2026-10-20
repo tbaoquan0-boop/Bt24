@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 2 - Form đăng ký - 701-MSSV</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">701-MSSV</a>
+    <nav aria-label="Menu chính">
+      <ul>
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="baitap01.html">Bài 1: Sản phẩm</a></li>
+        <li><a href="baitap02.html" aria-current="page">Bài 2: Đăng ký</a></li>
+        <li><a href="baitap03.html">Bài 3: Countdown</a></li>
+        <li><a href="about.html">Trả lời Lý thuyết</a></li>
+        <li><a href="baitap23.html">Bài tập 23</a></li>
+        <li><a href="baitap22.html">Bài tập 22</a></li>
+        <li><a href="contact.html">Thông tin Điểm danh</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<h1>Đăng ký tài khoản</h1>
+<p class="lead">Mật khẩu tối thiểu 8 ký tự, có chữ hoa, chữ thường và số.</p>
+<form id="register-form" class="card form" novalidate>
+  <div class="field">
+    <label for="name">Tên</label>
+    <input type="text" id="name" name="name" autocomplete="name" maxlength="80">
+    <p class="error" role="alert"></p>
+  </div>
+  <div class="field">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" autocomplete="email" maxlength="120">
+    <p class="error" role="alert"></p>
+  </div>
+  <div class="field">
+    <label for="password">Mật khẩu</label>
+    <input type="password" id="password" name="password" autocomplete="new-password" maxlength="128">
+    <p class="error" role="alert"></p>
+  </div>
+  <div class="field">
+    <div class="check">
+      <input type="checkbox" id="agree" name="agree">
+      <label for="agree">Đồng ý điều khoản</label>
+    </div>
+    <p class="error" role="alert"></p>
+  </div>
+  <button type="submit">Đăng ký</button>
+  <div id="form-result" role="status" hidden></div>
+</form>
+</main>
+<footer class="site">Đề thi kết thúc học phần - Chương 6: Domain Name &amp; Hosting</footer>
+<script src="js/script.js"></script>
+</body>
+</html>
